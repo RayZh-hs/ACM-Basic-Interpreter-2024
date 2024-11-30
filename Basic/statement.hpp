@@ -14,6 +14,7 @@
 
 #include <string>
 #include <sstream>
+#include <utility>
 #include "evalstate.hpp"
 #include "exp.hpp"
 #include "Utils/tokenScanner.hpp"
@@ -21,6 +22,9 @@
 #include "parser.hpp"
 #include "Utils/error.hpp"
 #include "Utils/strlib.hpp"
+#include "constants.hpp"
+#include "errorReporter.hpp"
+#include "safeexp.h"
 
 class Program;
 
@@ -35,42 +39,39 @@ class Program;
  */
 
 class Statement {
-
 public:
-
-/*
- * Constructor: Statement
- * ----------------------
- * The base class constructor is empty.  Each subclass must provide
- * its own constructor.
- */
+    /*
+     * Constructor: Statement
+     * ----------------------
+     * The base class constructor is empty.  Each subclass must provide
+     * its own constructor.
+     */
 
     Statement();
 
-/*
- * Destructor: ~Statement
- * Usage: delete stmt;
- * -------------------
- * The destructor deallocates the storage for this expression.
- * It must be declared virtual to ensure that the correct subclass
- * destructor is called when deleting a statement.
- */
+    /*
+     * Destructor: ~Statement
+     * Usage: delete stmt;
+     * -------------------
+     * The destructor deallocates the storage for this expression.
+     * It must be declared virtual to ensure that the correct subclass
+     * destructor is called when deleting a statement.
+     */
 
     virtual ~Statement();
 
-/*
- * Method: execute
- * Usage: stmt->execute(state);
- * ----------------------------
- * This method executes a BASIC statement.  Each of the subclasses
- * defines its own execute method that implements the necessary
- * operations.  As was true for the expression evaluator, this
- * method takes an EvalState object for looking up variables or
- * controlling the operation of the interpreter.
- */
+    /*
+     * Method: execute
+     * Usage: stmt->execute(state);
+     * ----------------------------
+     * This method executes a BASIC statement.  Each of the subclasses
+     * defines its own execute method that implements the necessary
+     * operations.  As was true for the expression evaluator, this
+     * method takes an EvalState object for looking up variables or
+     * controlling the operation of the interpreter.
+     */
 
-    virtual void execute(EvalState &state, Program &program) = 0;
-
+    virtual void execute(EvalState& state, Program& program) = 0;
 };
 
 
@@ -84,5 +85,79 @@ public:
  * an Expression object), the class implementation must also
  * specify its own destructor method to free that memory.
  */
+
+class StatementREM : public Statement {
+public:
+    StatementREM() = default;
+    ~StatementREM() override = default;
+
+    void execute(EvalState& state, Program& program) override;
+};
+
+// ! There may be memory leaks in the following classes due to inserted Expression pointers!
+
+class StatementLET : public Statement {
+public:
+    StatementLET(std::string var, Expression *expr)
+        : var(std::move(var)), expr(expr) {}
+
+    ~StatementLET() override = default;
+
+    void execute(EvalState& state, Program& program) override;
+private:
+    std::string var;
+    Expression *expr;
+};
+
+class StatementPRINT : public Statement {
+public:
+    explicit StatementPRINT(Expression *expr)
+        : expr(expr) {}
+
+    ~StatementPRINT() override = default;
+
+    void execute(EvalState& state, Program& program) override;
+
+private:
+    Expression *expr;
+};
+
+class StatementINPUT : public Statement {
+public:
+    explicit StatementINPUT(std::string var)
+        : var(std::move(var)) {}
+
+    ~StatementINPUT() override = default;
+
+    void execute(EvalState& state, Program& program) override;
+private:
+    std::string var;
+};
+
+class StatementGOTO : public Statement {
+public:
+    explicit StatementGOTO(const int line_number)
+        : line_number(line_number) {}
+
+    ~StatementGOTO() override = default;
+
+    void execute(EvalState& state, Program& program) override;
+private:
+    int line_number;
+};
+
+class StatementIF : public Statement {
+public:
+    explicit StatementIF(Expression *expr1, const char comparer, Expression *expr2, int line_number)
+        : expr1(expr1), expr2(expr2), comparer(comparer), line_number(line_number) {}
+
+    ~StatementIF() override = default;
+
+    void execute(EvalState& state, Program& program) override;
+private:
+    Expression *expr1, *expr2;
+    char comparer;
+    int line_number;
+};
 
 #endif

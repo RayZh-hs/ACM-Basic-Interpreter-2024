@@ -81,12 +81,17 @@ int Program::getNextLineNumber(int lineNumber) {
     return *iter;
 }
 
+//more func to add
+//todo
+
 bool Program::hasLine(int lineNumber) {
     return line_numbers.count(lineNumber);
 }
 
+int Program::getRunningAtLineNumber() const {
+    return running_at_line_number;
+}
 
-//more func to add
-//todo
-
-
+int Program::setRunningAtLineNumber(const int to) {
+    return running_at_line_number = to;
+}

@@ -297,3 +297,8 @@ std::string removeWhitespace(std::string from)  {
     }
     return ret;
 }
+
+bool matchRegex(std::string str, std::regex pattern) {
+    std::smatch res;
+    return std::regex_match(str, res, pattern);
+}

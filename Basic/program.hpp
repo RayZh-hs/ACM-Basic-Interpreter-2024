@@ -128,6 +128,9 @@ public:
 
     bool hasLine(int lineNumber);
 
+    int getRunningAtLineNumber() const ;
+    int setRunningAtLineNumber(int to);
+
 private:
 
     // Fill this in with whatever types and instance variables you need
@@ -140,6 +143,8 @@ private:
     std::unordered_map<int, std::string> literal_program;
     // The parsed version of user input lines, called using the virtual exec() method.
     std::unordered_map<int, Statement*>  parsed_program;
+
+    int running_at_line_number = Basic::null_line_number;
 
 };
 

@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <string>
+#include <regex>
 
 /*
  * Function: integerToString
@@ -203,5 +204,7 @@ inline void readGenericValue(std::istream& is, std::string& value) {
 }
 
 std::string removeWhitespace(std::string from);
+
+bool matchRegex(std::string str, std::regex pattern);
 
 #endif
