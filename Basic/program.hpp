@@ -13,6 +13,7 @@
 #include <set>
 #include <unordered_map>
 #include "statement.hpp"
+#include "errorReporter.hpp"
 
 
 class Statement;
@@ -40,7 +41,6 @@ public:
  * -----------------------
  * Constructs an empty BASIC program.
  */
-
     Program();
 
 /*
@@ -49,7 +49,6 @@ public:
  * -----------------------
  * Frees any heap storage associated with the program.
  */
-
     ~Program();
 
 /*
@@ -58,66 +57,50 @@ public:
  * -----------------------
  * Removes all lines from the program.
  */
-
     void clear();
 
 /*
- * Method: addSourceLine
- * Usage: program.addSourceLine(lineNumber, line);
+ * Method: insertSourceLine
+ * Usage: program.insertSourceLine(lineNumber, line, statement);
  * -----------------------------------------------
  * Adds a source line to the program with the specified line number.
  * If that line already exists, the text of the line replaces
  * the text of any existing line and the parsed representation
  * (if any) is deleted.  If the line is new, it is added to the
- * program in the correct sequence.
+ * program in the correct sequence. This should not be called to
+ * remove a line; use removeLine(lineNumber) instead.
  */
-
-    void addSourceLine(int lineNumber, const std::string& line);
+    void insertLine(int lineNumber, const std::string& line, Statement *statement);
 
 /*
- * Method: removeSourceLine
- * Usage: program.removeSourceLine(lineNumber);
+ * Method: removeLine
+ * Usage: program.removeLine(lineNumber);
  * --------------------------------------------
  * Removes the line with the specified number from the program,
  * freeing the memory associated with any parsed representation.
  * If no such line exists, this method simply returns without
  * performing any action.
  */
-
-    void removeSourceLine(int lineNumber);
+    void removeLine(int lineNumber);
 
 /*
- * Method: getSourceLine
- * Usage: string line = program.getSourceLine(lineNumber);
+ * Method: getLiteral
+ * Usage: string line = program.getLiteral(lineNumber);
  * -------------------------------------------------------
  * Returns the program line with the specified line number.
  * If no such line exists, this method returns the empty string.
  */
-
-    std::string getSourceLine(int lineNumber);
-
-/*
- * Method: setParsedStatement
- * Usage: program.setParsedStatement(lineNumber, stmt);
- * ----------------------------------------------------
- * Adds the parsed representation of the statement to the statement
- * at the specified line number.  If no such line exists, this
- * method raises an error.  If a previous parsed representation
- * exists, the memory for that statement is reclaimed.
- */
-
-    void setParsedStatement(int lineNumber, Statement *stmt);
+    std::string getLiteral(int lineNumber);
 
 /*
- * Method: getParsedStatement
- * Usage: Statement *stmt = program.getParsedStatement(lineNumber);
+ * Method: getParsed
+ * Usage: Statement *stmt = program.getParsed(lineNumber);
  * ----------------------------------------------------------------
  * Retrieves the parsed representation of the statement at the
  * specified line number.  If no value has been set, this method
  * returns NULL.
  */
-
-    Statement *getParsedStatement(int lineNumber);
+    Statement *getParsed(int lineNumber);
 
 /*
  * Method: getFirstLineNumber
@@ -143,10 +126,21 @@ public:
     //more func to add
     //todo
 
+    bool hasLine(int lineNumber);
+
 private:
 
     // Fill this in with whatever types and instance variables you need
     //todo
+
+    // The collection of all the line numbers in this program.
+    std::set<int> line_numbers;
+
+    // The user input, stored in this unordered map literally.
+    std::unordered_map<int, std::string> literal_program;
+    // The parsed version of user input lines, called using the virtual exec() method.
+    std::unordered_map<int, Statement*>  parsed_program;
+
 };
 
 #endif

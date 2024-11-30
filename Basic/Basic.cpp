@@ -13,6 +13,7 @@
 #include "Utils/error.hpp"
 #include "Utils/tokenScanner.hpp"
 #include "Utils/strlib.hpp"
+#include <regex>
 
 
 /* Function prototypes */
@@ -52,11 +53,12 @@ int main() {
  */
 
 void processLine(std::string line, Program &program, EvalState &state) {
-    TokenScanner scanner;
-    scanner.ignoreWhitespace();
-    scanner.scanNumbers();
-    scanner.setInput(line);
+    // TokenScanner scanner;
+    // scanner.ignoreWhitespace();
+    // scanner.scanNumbers();
+    // scanner.setInput(line);
 
     //todo
+
 }
 

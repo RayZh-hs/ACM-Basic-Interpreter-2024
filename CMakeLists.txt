@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(code)
+project(BASIC)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -12,4 +12,11 @@ add_executable(code
         Basic/statement.cpp
         Basic/Utils/error.cpp Basic/Utils/error.hpp Basic/Utils/tokenScanner.cpp Basic/Utils/tokenScanner.hpp
         Basic/Utils/strlib.cpp
-        )
+        Basic/errorReporter.hpp
+        Basic/errorReporter.cpp
+)
+
+add_executable(BASIC_TestBench
+        score.cpp
+        Basic/constants.hpp
+)
