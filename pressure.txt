@@ -1,0 +1,37 @@
+-1 LET A = 1
+PRINT 1
+10 REM
+PRINT 3
+10 REM IIIII
+1LET  A =    5
+2LETB = 2
+3 LET AB = 0
+4 PRINT (A + B)
+0 LET C = 0
+RUN
+LIST
+0
+LIST
+4 PRINT AB + (A + (B))
+RUN
+6 PRINT AB (A + (B))
+EXIT
+Q
+7 CLEAR
+RUN
+7 GOTO 999
+CLEAR
+0 LET    a = 1
+1 LET b = 7
+2 LET ab   = 2
+3 PRINT a + a b
+RUN
+CLEAR
+0    LET a = 1
+1    LET b = 7
+2  LET a b   = 2
+PRINT 1
+2  LET ab   = 2
+3 PRINT a + a           b
+RUN
+QUIT
