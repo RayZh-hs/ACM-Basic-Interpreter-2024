@@ -287,3 +287,13 @@ void writeQuotedString(std::ostream &os, const std::string &str, bool forceQuote
     }
     if (forceQuotes) os << '"';
 }
+
+std::string removeWhitespace(std::string from)  {
+    std::string ret;
+    for (char i : from) {
+        if (i != ' ' && i != '\n' && i != '\r' && i != '\t') {
+            ret += i;
+        }
+    }
+    return ret;
+}

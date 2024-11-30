@@ -138,7 +138,7 @@ std::string trim(std::string str);
  * in the output only if necessary.
  */
 
-void writeQuotedString(std::ostream &os, const std::string &str,
+void writeQuotedString(std::ostream& os, const std::string& str,
                        bool forceQuotes = true);
 
 /*
@@ -153,7 +153,7 @@ void writeQuotedString(std::ostream &os, const std::string &str,
  * in the string STRING_DELIMITERS in the implementation file.
  */
 
-void readQuotedString(std::istream &is, std::string &str);
+void readQuotedString(std::istream& is, std::string& str);
 
 /*
  * Friend function: stringNeedsQuoting
@@ -162,7 +162,7 @@ void readQuotedString(std::istream &is, std::string &str);
  * Checks whether the string needs quoting in order to be read correctly.
  */
 
-bool stringNeedsQuoting(const std::string &str);
+bool stringNeedsQuoting(const std::string& str);
 
 /*
  * Friend function: writeGenericValue
@@ -172,14 +172,14 @@ bool stringNeedsQuoting(const std::string &str);
  * this function uses writeQuotedString to write the value.
  */
 
-template<typename ValueType>
-void writeGenericValue(std::ostream &os, const ValueType &value,
+template <typename ValueType>
+void writeGenericValue(std::ostream& os, const ValueType& value,
                        bool forceQuotes) {
     os << value;
 }
 
-template<>
-inline void writeGenericValue(std::ostream &os, const std::string &value,
+template <>
+inline void writeGenericValue(std::ostream& os, const std::string& value,
                               bool forceQuotes) {
     writeQuotedString(os, value, forceQuotes);
 }
@@ -192,15 +192,16 @@ inline void writeGenericValue(std::ostream &os, const std::string &value,
  * this function uses readQuotedString to read the value.
  */
 
-template<typename ValueType>
-void readGenericValue(std::istream &is, ValueType &value) {
+template <typename ValueType>
+void readGenericValue(std::istream& is, ValueType& value) {
     is >> value;
 }
 
-template<>
-inline void readGenericValue(std::istream &is, std::string &value) {
+template <>
+inline void readGenericValue(std::istream& is, std::string& value) {
     readQuotedString(is, value);
 }
 
+std::string removeWhitespace(std::string from);
 
 #endif
