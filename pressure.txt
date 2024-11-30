@@ -34,4 +34,13 @@ PRINT 1
 2  LET ab   = 2
 3 PRINT a + a           b
 RUN
+CLEAR
+1 PRINT a
+2 LET a = 5
+3 IF a = 5 THEN 4
+2 LET a = a + 2
+4 PRINT a
+RUN
+LET a = 1
+RUN
 QUIT
