@@ -13,7 +13,6 @@
 #include <set>
 #include <unordered_map>
 #include "statement.hpp"
-#include "errorReporter.hpp"
 #include "constants.hpp"
 
 

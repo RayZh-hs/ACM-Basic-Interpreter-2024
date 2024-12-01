@@ -21,11 +21,12 @@ namespace Basic {
     const std::regex regex_valid_variable_mode  (R"(^[a-zA-Z0-9]+$)");
     const std::regex regex_reserved_names       (R"(REM|LET|PRINT|INPUT|END|RUN|LIST|CLEAR|QUIT|HELP)");
     const std::regex regex_valid_number         (R"(^-?[0-9]+$)");
-    const std::regex regex_discrete_letters     (R"([a-zA-Z_0-9]+ +[a-zA-Z_0-9]+)");
+    const std::regex regex_discrete_letters     (R"([a-zA-Z0-9]+ +[a-zA-Z0-9]+)");
     const std::regex regex_concentrated_symbols (R"([\+\-*\/]+\s*[\+\-*\/]+)");
+    const std::regex regex_connected_brackets   (R"((?:[a-zA-Z0-9\)] *\(|\) *[a-zA-Z0-9\(]))");
     const std::regex regex_leading_number       (R"(^[0-9]*)");
 
-    const std::regex regex_sav_rem              (R"(^([0-9]+) *REM.*$)");
+    const std::regex regex_sav_rem              (R"(^([0-9]+) *REM.+$)");
     const std::regex regex_sav_let              (R"(^([0-9]+) *LET ?(.*)=(.*)$)");
     const std::regex regex_sav_print            (R"(^([0-9]+) *PRINT ?(.*)$)");
     const std::regex regex_sav_input            (R"(^([0-9]+) *INPUT ?(\S+)$)");

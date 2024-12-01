@@ -62,6 +62,7 @@ Expression *readT(TokenScanner &scanner) {
     if (token != "(") error("Illegal term in expression");
     Expression *exp = readE(scanner);
     if (scanner.nextToken() != ")") {
+        try {delete exp;} catch(...) {}
         error("Unbalanced parentheses in expression");
     }
     return exp;

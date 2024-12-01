@@ -19,7 +19,7 @@
 */
 Expression *safeBuildExpr(std::string exp);
 
-bool existDiscreteLetters (std::string str);
+bool preparseTestFailed (std::string str);
 
 
 #endif //SAFEEXP_H

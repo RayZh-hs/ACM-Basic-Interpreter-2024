@@ -8,7 +8,7 @@ const string traceFolder = "Test/";
 const string defaultStudentBasic = "./testcode";
 const string defaultStanderBasic = "./Basic-Demo-64bit";
 
-const int traceCount = 100;
+const int traceCount = 101;
 const string traces[traceCount] = {
         "trace00.txt", "trace01.txt", "trace02.txt", "trace03.txt", "trace04.txt", "trace05.txt", "trace06.txt",
         "trace07.txt", "trace08.txt", "trace09.txt",
@@ -30,12 +30,13 @@ const string traces[traceCount] = {
         "trace87.txt", "trace88.txt", "trace89.txt",
         "trace90.txt", "trace91.txt", "trace92.txt", "trace93.txt", "trace94.txt", "trace95.txt", "trace96.txt",
         "trace97.txt", "trace98.txt", "trace99.txt",
+        "advanced00.txt"
 };
 
 string studentBasic = "";
 string standerBasic = "";
 string traceFile    = "";
-int beginTrace      = 0;
+int beginTrace      = 100;
 int runTraces = traceCount, currentTrace = 0;
 bool silent = false, firstFail = false, hideError = false, useColor = true;
 
@@ -185,7 +186,7 @@ int main(int argc, char **argv) {
          if you modify the structure of the files, you should modify the file paths here.
          **************************************************************/
         // system("g++ -std=c++17 -o testcode Basic/Basic.cpp Basic/evalstate.cpp Basic/exp.cpp Basic/parser.cpp Basic/program.cpp Basic/statement.cpp Basic/Utils/error.cpp Basic/Utils/tokenScanner.cpp Basic/Utils/strlib.cpp");
-        system("g++ -std=c++17 -o testcode Basic/Basic.cpp Basic/errorReporter.cpp Basic/safeexp.cpp Basic/evalstate.cpp Basic/exp.cpp Basic/parser.cpp Basic/program.cpp Basic/statement.cpp Basic/Utils/error.cpp Basic/Utils/tokenScanner.cpp Basic/Utils/strlib.cpp");
+        system("g++ -std=c++17 -o testcode Basic/Basic.cpp Basic/safeexp.cpp Basic/evalstate.cpp Basic/exp.cpp Basic/parser.cpp Basic/program.cpp Basic/statement.cpp Basic/Utils/error.cpp Basic/Utils/tokenScanner.cpp Basic/Utils/strlib.cpp");
         system("chmod a+rwx Basic-Demo-64bit");
         if (traceFile.size()) runTest(traceFile);
         else {
