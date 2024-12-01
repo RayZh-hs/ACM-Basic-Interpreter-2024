@@ -31,8 +31,11 @@ Expression *safeBuildExpr(std::string expr) {
 bool preparseTestFailed(std::string str) {
     std::smatch buff;
     return
+        // guard against ignored symbols like =
+    !   std::regex_search(str, buff, Basic::regex_valid_expr_mode)
+
         // guard against `a b` -> `ab`
-        std::regex_search(str, buff, Basic::regex_discrete_letters)
+    ||  std::regex_search(str, buff, Basic::regex_discrete_letters)
 
         // guard against `++` `/-` -> UB
     ||  std::regex_search(str, buff, Basic::regex_concentrated_symbols)

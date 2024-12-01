@@ -21,6 +21,7 @@ namespace Basic {
     const std::regex regex_valid_variable_mode  (R"(^[a-zA-Z0-9]+$)");
     const std::regex regex_reserved_names       (R"(REM|LET|PRINT|INPUT|END|RUN|LIST|CLEAR|QUIT|HELP)");
     const std::regex regex_valid_number         (R"(^-?[0-9]+$)");
+    const std::regex regex_valid_expr_mode      (R"(^[a-zA-Z0-9\+\-*\/\(\) ]+$)");
     const std::regex regex_discrete_letters     (R"([a-zA-Z0-9]+ +[a-zA-Z0-9]+)");
     const std::regex regex_concentrated_symbols (R"([\+\-*\/]+\s*[\+\-*\/]+)");
     const std::regex regex_connected_brackets   (R"((?:[a-zA-Z0-9\)] *\(|\) *[a-zA-Z0-9\(]))");

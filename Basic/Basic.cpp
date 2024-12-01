@@ -35,12 +35,12 @@ int main() {
         try {
             std::string input;
             getline(std::cin, input);
-            if (std::cin.eof()) {
-                error("QUIT");
-            }
             if (input.empty())
                 continue;
             processLine(input, program, state);
+            if (std::cin.eof()) {
+                error("QUIT");
+            }
         } catch (ErrorException &ex) {
             const std::string msg = ex.getMessage();
             if (msg == "QUIT") {
@@ -53,9 +53,15 @@ int main() {
             || (msg.length() > 22 && msg.substr(0, 21) == "parseExp: Found extra")
             ) {
                 std::cout << "SYNTAX ERROR" << std::endl;
+                if (std::cin.eof()) {
+                    break;
+                }
                 continue;
             }
             std::cout << ex.getMessage() << std::endl;
+            if (std::cin.eof()) {
+                break;
+            }
         }
     }
     return 0;
