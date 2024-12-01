@@ -198,6 +198,7 @@ void processLine(std::string line, Program &program, EvalState &state) {
     else if (matchRegex(line, Basic::regex_exe_clear)) {
         // Clear the program
         program.clear();
+        state.Clear();
     }
     //: QUIT
     else if (matchRegex(line, Basic::regex_exe_quit)) {

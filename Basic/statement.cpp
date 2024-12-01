@@ -60,7 +60,8 @@ void StatementINPUT::execute(EvalState& state, Program& program) {
     std::string buff;
     while (true) {
         std::cout << " ? ";
-        std::cin >> buff;
+        // std::cin >> buff;
+        std::getline(std::cin, buff);
         if (matchRegex(buff, Basic::regex_valid_number)) {
             break;
         }

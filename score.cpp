@@ -34,7 +34,8 @@ const string traces[traceCount] = {
 
 string studentBasic = "";
 string standerBasic = "";
-string traceFile = "";
+string traceFile    = "";
+int beginTrace      = 0;
 int runTraces = traceCount, currentTrace = 0;
 bool silent = false, firstFail = false, hideError = false, useColor = true;
 
@@ -47,6 +48,7 @@ void usage(const char *progname) {
             << "    -e  Specify your executable file, default value: " << defaultStudentBasic << endl
             << "    -s  Specify demo executable file, default value: " << defaultStanderBasic << endl
             << "    -t  Run specified trace file" << endl
+            // << "    -b  Begin testing from this trace" << endl
             << "    -f  Stop at first failed test" << endl
             << "    -m  Hide error message" << endl
             << "    -q  Show final score only, cannot use with -t or -f, include -m" << endl;
@@ -64,15 +66,15 @@ void parseArguments(int argc, char **argv) {
     while ((c = getopt(argc, argv, "e:s:t:fmqch")) != -1) {
         switch (c) {
             case 'e':
-                if (studentBasic.size()) usage(argv[0]);
+                if (!studentBasic.empty()) usage(argv[0]);
                 studentBasic = optarg;
                 break;
             case 's':
-                if (standerBasic.size()) usage(argv[0]);
+                if (!standerBasic.empty()) usage(argv[0]);
                 standerBasic = optarg;
                 break;
             case 't':
-                if (traceFile.size()) usage(argv[0]);
+                if (!traceFile.empty()) usage(argv[0]);
                 traceFile = optarg;
                 break;
             case 'f':
@@ -187,7 +189,7 @@ int main(int argc, char **argv) {
         system("chmod a+rwx Basic-Demo-64bit");
         if (traceFile.size()) runTest(traceFile);
         else {
-            int i = 0;
+            int i = beginTrace;
             for (; i < traceCount; i++) runTest(traceFolder + traces[i]);
         }
     } catch (...) {}
