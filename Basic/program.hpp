@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include "statement.hpp"
 #include "errorReporter.hpp"
+#include "constants.hpp"
 
 
 class Statement;
@@ -131,6 +132,12 @@ public:
     int getRunningAtLineNumber() const ;
     int setRunningAtLineNumber(int to);
 
+    void run(EvalState &state);
+
+    void list();
+
+    void inhibitPC();
+
 private:
 
     // Fill this in with whatever types and instance variables you need
@@ -144,7 +151,10 @@ private:
     // The parsed version of user input lines, called using the virtual exec() method.
     std::unordered_map<int, Statement*>  parsed_program;
 
+    // The current flag that the interpreter is running at.
     int running_at_line_number = Basic::null_line_number;
+    // This flag is set to inhibit the Program Counter from acting, using in all JUMP/BRANCH subclasses.
+    bool inhibit_pc_flag = false;
 
 };
 

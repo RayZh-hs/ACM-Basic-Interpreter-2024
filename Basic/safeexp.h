@@ -17,7 +17,7 @@
 /**
 * @brief Evaluates a string and returns the value safely. Any anomaly spotted, it will raise an exception.
 */
-Expression *safeBuildExpr(std::string exp, EvalState& state);
+Expression *safeBuildExpr(std::string exp);
 
 bool existDiscreteLetters (std::string str);
 

@@ -22,16 +22,15 @@ Statement::~Statement() = default;
 
 void StatementREM::execute(EvalState& state, Program& program) {
   // It is merely a comment, so executing it does nothing.
-    return;
 }
 
 void StatementLET::execute(EvalState& state, Program& program) {
-    try {
+    // try {
         int new_value = expr->eval(state);
         state.setValue(var,
             new_value
         );
-    }
+    // }
     /*
     catch (ErrorException &exception) {
         if (exception.getMessage() == "VARIABLE NOT DEFINED")
@@ -48,18 +47,13 @@ void StatementLET::execute(EvalState& state, Program& program) {
         error("HALT");
     }
     */
-    catch (ErrorException &exception) {
-        error("VARIABLE NOT DEFINED");
-    }
+    // catch (ErrorException &exception) {
+    //     error("VARIABLE NOT DEFINED");
+    // }
 }
 
 void StatementPRINT::execute(EvalState& state, Program& program) {
-    try {
-        std::cout << expr->eval(state) << std::endl;
-    }
-    catch (ErrorException &exception) {
-        error("VARIABLE NOT DEFINED");
-    }
+    std::cout << expr->eval(state) << std::endl;
 }
 
 void StatementINPUT::execute(EvalState& state, Program& program) {
@@ -85,17 +79,18 @@ void StatementGOTO::execute(EvalState& state, Program& program) {
         std::cerr << "Internal Error Occurred at statement.cpp/83" << '\n';
         error("INTERNAL ERROR");
     }
+    program.inhibitPC();
     program.setRunningAtLineNumber(line_number);
 }
 
 void StatementIF::execute(EvalState& state, Program& program) {
     try {
-        int left = expr1->eval(state);
+        int left  = expr1->eval(state);
         int right = expr2->eval(state);
         if (
             (comparer == '=' && left != right) ||
             (comparer == '<' && left >= right) ||
-            (comparer == '<' && left <= right)
+            (comparer == '>' && left <= right)
             ) {
             return;
         }
@@ -104,14 +99,18 @@ void StatementIF::execute(EvalState& state, Program& program) {
             error("LINE NUMBER NOT FOUND");
             // Forward to catch !
         }
+        program.inhibitPC();
         program.setRunningAtLineNumber(line_number);
     }
     catch (ErrorException &exception) {
         if (exception.getMessage() == "LINE NUMBER NOT FOUND")
             error("LINE NUMBER ERROR");
         else
-            error("VARIABLE NOT DEFINED");
-        // This ensures that the interpreter can be informed of the exception and can thus halt.
-        // error("HALT");
+            throw;
     }
+}
+
+void StatementEND::execute(EvalState& state, Program& program) {
+    program.inhibitPC();
+    program.setRunningAtLineNumber(-1);
 }

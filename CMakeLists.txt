@@ -16,11 +16,8 @@ add_executable(code
         Basic/errorReporter.cpp
         Basic/safeexp.cpp
         Basic/safeexp.h
-        Basic/execute.cpp
-        Basic/execute.h
 )
 
 add_executable(BASIC_TestBench
         score.cpp
-        Basic/constants.hpp
 )

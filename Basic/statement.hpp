@@ -94,14 +94,16 @@ public:
     void execute(EvalState& state, Program& program) override;
 };
 
-// ! There may be memory leaks in the following classes due to inserted Expression pointers!
+// ?fixed? There may be memory leaks in the following classes due to inserted Expression pointers!
 
 class StatementLET : public Statement {
 public:
     StatementLET(std::string var, Expression *expr)
         : var(std::move(var)), expr(expr) {}
 
-    ~StatementLET() override = default;
+    ~StatementLET() override {
+        delete expr;
+    }
 
     void execute(EvalState& state, Program& program) override;
 private:
@@ -114,7 +116,9 @@ public:
     explicit StatementPRINT(Expression *expr)
         : expr(expr) {}
 
-    ~StatementPRINT() override = default;
+    ~StatementPRINT() override {
+        delete expr;
+    }
 
     void execute(EvalState& state, Program& program) override;
 
@@ -151,13 +155,25 @@ public:
     explicit StatementIF(Expression *expr1, const char comparer, Expression *expr2, int line_number)
         : expr1(expr1), expr2(expr2), comparer(comparer), line_number(line_number) {}
 
-    ~StatementIF() override = default;
+    ~StatementIF() override {
+        delete expr1;
+        delete expr2;
+    }
 
     void execute(EvalState& state, Program& program) override;
 private:
     Expression *expr1, *expr2;
     char comparer;
     int line_number;
+};
+
+class StatementEND : public Statement {
+public:
+    StatementEND() = default;
+
+    ~StatementEND() override = default;
+
+    void execute(EvalState& state, Program& program) override;
 };
 
 #endif

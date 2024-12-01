@@ -205,6 +205,8 @@ inline void readGenericValue(std::istream& is, std::string& value) {
 
 std::string removeWhitespace(std::string from);
 
-bool matchRegex(std::string str, std::regex pattern);
+bool matchRegex(const std::string& str, const std::regex& pattern);
+
+std::smatch groupRegex(const std::string& str, const std::regex& pattern);
 
 #endif

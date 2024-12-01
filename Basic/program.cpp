@@ -14,10 +14,17 @@
 
 Program::Program() = default;
 
-Program::~Program() = default;
+Program::~Program() {
+    clear();
+}
+
+//?fixed? The clear function may lead to memory leak!
 
 void Program::clear() {
     // Replace this stub with your own code
+    for (auto cur: line_numbers) {
+        delete parsed_program[cur];
+    }
     line_numbers.clear();
     literal_program.clear();
     parsed_program.clear();
@@ -33,6 +40,7 @@ void Program::insertLine(int lineNumber, const std::string &line, Statement *sta
     }
     line_numbers.insert(lineNumber);
     literal_program[lineNumber] = line;
+    parsed_program [lineNumber] = statement;
 }
 
 void Program::removeLine(int lineNumber) {
@@ -69,6 +77,9 @@ Statement *Program::getParsed(int lineNumber) {
 
 int Program::getFirstLineNumber() {
     // Replace this stub with your own code
+    if (line_numbers.empty()) {
+        return -1;
+    }
     return *line_numbers.begin();
 }
 
@@ -94,4 +105,29 @@ int Program::getRunningAtLineNumber() const {
 
 int Program::setRunningAtLineNumber(const int to) {
     return running_at_line_number = to;
+}
+
+void Program::run(EvalState &state) {
+    running_at_line_number = getFirstLineNumber();
+    while (running_at_line_number != -1) {
+        parsed_program[running_at_line_number]->execute(state, *this);
+        if (!inhibit_pc_flag)
+            running_at_line_number = getNextLineNumber(running_at_line_number);
+        inhibit_pc_flag = false;    // The flag needs to be reset every round.
+    }
+}
+
+void Program::list() {
+    try {
+        for (auto cur: line_numbers) {
+            std::cout << literal_program[cur] << std::endl;
+        }
+    }
+    catch (...) {
+        error("INTERNAL ERROR");
+    }
+}
+
+void Program::inhibitPC() {
+    inhibit_pc_flag = true;
 }

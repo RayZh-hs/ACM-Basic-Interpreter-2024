@@ -4,7 +4,7 @@
 
 #include "safeexp.h"
 
-Expression *safeBuildExpr(std::string expr, EvalState& state) {
+Expression *safeBuildExpr(std::string expr) {
     if (existDiscreteLetters(expr)) {
         // Things like (a b cd) should not progress forward
         error("DISCRETE LETTERS (Syntax Error)");
@@ -25,5 +25,7 @@ Expression *safeBuildExpr(std::string expr, EvalState& state) {
 
 bool existDiscreteLetters(std::string str) {
     std::smatch buff;
-    return std::regex_search(str, buff, Basic::regex_discrete_letters);
+    return
+        std::regex_search(str, buff, Basic::regex_discrete_letters)
+    ||  std::regex_search(str, buff, Basic::regex_concentrated_symbols);
 }
