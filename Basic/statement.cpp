@@ -62,6 +62,9 @@ void StatementINPUT::execute(EvalState& state, Program& program) {
         std::cout << " ? ";
         // std::cin >> buff;
         std::getline(std::cin, buff);
+        if (std::cin.eof()) {
+            error("QUIT");
+        }
         if (matchRegex(buff, Basic::regex_valid_number)) {
             break;
         }

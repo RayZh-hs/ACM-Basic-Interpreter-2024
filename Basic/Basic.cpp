@@ -35,17 +35,22 @@ int main() {
         try {
             std::string input;
             getline(std::cin, input);
+            if (std::cin.eof()) {
+                error("QUIT");
+            }
             if (input.empty())
                 continue;
             processLine(input, program, state);
         } catch (ErrorException &ex) {
-            if (ex.getMessage() == "QUIT") {
+            const std::string msg = ex.getMessage();
+            if (msg == "QUIT") {
                 // Break out of the loop instead of calling exit(0) ensures that the destructors can be called
                 break;
             }
             if (
-                ex.getMessage() == "Illegal term in expression"
-            ||  ex.getMessage() == "Unbalanced parentheses in expression"
+                msg == "Illegal term in expression"
+            ||  msg == "Unbalanced parentheses in expression"
+            || (msg.length() > 22 && msg.substr(0, 21) == "parseExp: Found extra")
             ) {
                 std::cout << "SYNTAX ERROR" << std::endl;
                 continue;

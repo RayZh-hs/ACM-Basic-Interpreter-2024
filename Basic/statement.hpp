@@ -23,7 +23,6 @@
 #include "Utils/error.hpp"
 #include "Utils/strlib.hpp"
 #include "constants.hpp"
-#include "errorReporter.hpp"
 #include "safeexp.h"
 
 class Program;
