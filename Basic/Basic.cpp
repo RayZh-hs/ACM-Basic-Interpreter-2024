@@ -35,9 +35,6 @@ int main() {
         try {
             std::string input;
             getline(std::cin, input);
-            if (std::cin.eof()) {
-                error("QUIT");
-            }
             if (input.empty())
                 continue;
             processLine(input, program, state);

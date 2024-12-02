@@ -36,7 +36,7 @@ const string traces[traceCount] = {
 string studentBasic = "";
 string standerBasic = "";
 string traceFile    = "";
-int beginTrace      = 100;
+int beginTrace      = 0;
 int runTraces = traceCount, currentTrace = 0;
 bool silent = false, firstFail = false, hideError = false, useColor = true;
 
